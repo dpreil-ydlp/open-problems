@@ -1,12 +1,19 @@
 # Erdős problem #708: partial progress, 15 October 2026
 
-**Status: OPEN. Nothing here resolves the problem in general.** New in Sections 3A and 3B: the question has an affirmative answer, with the bound 2n − 1, for all sets whose elements have at most two distinct prime factors, which includes Erdős's extremal family (Theorem A), and for every set with max(A) > (2n+1)³ (Theorem C). A counterexample to g(n) ≤ 2n must have max(A) ≤ (2n+1)³ and an element with three or more distinct prime factors. This note (i) states the problem precisely from the primary sources, (ii) gives a complete proof, with the exact count, of the Erdős–Surányi lower bound whose details the 1992 paper leaves to the reader, (iii) records a reduction for the upper bound and the special cases it settles, and (iv) lists what was tried and failed. Author: Claude Fable 5.1, directed by Dovid Preil. Sources and brute force: SOURCES.md, STATEMENT.md, FINDINGS.md.
+**Status: OPEN. Nothing here resolves the problem in general.** Prior work (Section 1A): Haoyu Chen's 2026 manuscript claims g(n) ≤ 12n for all n; Section 3A rediscovers one of his intermediate inequalities. Proved here: the question has an affirmative answer, with the bound 2n − 1, for all sets whose elements have at most two distinct prime factors, which includes Erdős's extremal family (Theorem A), and for every set with max(A) > (2n+1)³ (Theorem C). A counterexample to g(n) ≤ 2n must have max(A) ≤ (2n+1)³ and an element with three or more distinct prime factors. This note (i) states the problem precisely from the primary sources, (ii) gives a complete proof, with the exact count, of the Erdős–Surányi lower bound whose details the 1992 paper leaves to the reader, (iii) records a reduction for the upper bound and the special cases it settles, and (iv) lists what was tried and failed. Author: Claude Fable 5.1, directed by Dovid Preil. Sources and brute force: SOURCES.md, STATEMENT.md, FINDINGS.md.
 
 ## 1. The problem
 
 For a set A = {a_1 < ... < a_n} of integers with a_1 ≥ 2, write M = a_n. For x ≥ 0 let I_x = {x+1, ..., x+M}. Let h(A, x) be the least size of a set B ⊆ I_x with ∏_{a∈A} a | ∏_{b∈B} b, and g(n) = sup over all such A and all x ≥ 0 of h(A, x). (Erdős 1992, p. 34, and Erdős–Surányi 1959.) Known: g(2) = 2, g(3) = 4, and g(n) > (2−ε)n for n > n_0(ε). Asked: is g(n) < (2+ε)n for large n, or even g(n) ≤ 2n? Prize $100.
 
 Remarks. (a) h(A, x) is finite: every a ≤ M has a multiple in I_x, so B = I_x works. (b) g is nondecreasing in n: if (A, x) is hard for n and M ≥ n+1, adjoin any a' ∈ [2, M] \ A; covering A ∪ {a'} is at least as hard. (c) B = A shows h(A, 0) ≤ n; the difficulty is entirely in the adversary's choice of x.
+
+## 1A. Prior work found on 15 October 2026 (after Sections 3A and 3B were written)
+
+- Haoyu Chen, *Explicit upper bounds for the Erdős–Surányi function g(n)*, public manuscript and Lean 4 development, https://github.com/chy4pro/erdos-708-explicit-upper-bounds (commit 8b9c1c1, 8 Sep 2026; proof claim submitted to erdosproblems.com on 5 Sep 2026, listed there as "Claimed / Partial", unreviewed by the site). It claims g(n) ≤ 12n for all n (kernel-verified in Lean according to the author), an 11n bound "refereed, not formalised", and, per the site summary, the 2n bound for max(A) ≥ 8n³ as a conjecture.
+- Chen's collision–cycle proof contains, as an intermediate inequality, exactly the group bound of Theorem B below (δ_p(S) ≤ Σ_C (r_{C,p}(1) − 1)^+ and Σ_p δ_p(S) ≤ Σ_C (Σ_{a∈C} ω(a) − |P(C)|), with h(A,x) ≤ |S| + Σ_p δ_p(S)), and his main.tex states the two-prime-factor case and the "a counterexample needs three prime factors" remark. **Sections 3A (Theorems A, B, Corollary 5) are therefore an independent rediscovery, not new results.** They were written on 15 Oct 2026 without knowledge of Chen's work and are kept here as a self-contained exposition.
+- Whether Theorem C (Section 3B) is new is being checked against Chen's manuscript; see PRIORWORK.md when present. If Chen only conjectures the 2n bound for max(A) ≥ 8n³, Theorem C proves a statement of that shape (with (2n+1)³ in place of 8n³).
+- Independent referee report on 3A: REVIEW-SOL-THEOREM-A.md (mathematics correct; 300 random instances, 3,517 exact ILP solves, no violation; blocked on novelty only).
 
 ## 2. The lower bound, with the exact count
 
@@ -66,7 +73,7 @@ So after B_1 (at most n numbers) the remaining demand is a product of n − |B_1
 
 Thus the whole difficulty is concentrated in gcds d_j > M/(2n) all of whose multiples in I have already been taken. Erdős's construction is exactly this: d = p_i p_j with the single multiple c.
 
-## 3A. New upper bounds: the hub-and-fill method
+## 3A. Upper bounds by hub-and-fill (independent rediscovery of an inequality in Chen's manuscript; see 1A)
 
 Notation. For a prime p and v ≥ 1 put D(p,v) = #{a ∈ A : p^v | a} and N(p,v) = #{b ∈ I : p^v | b}. Since the elements of A divisible by p^v are distinct multiples of p^v in [1, M],
 
@@ -84,7 +91,7 @@ For each prime p, let F_p ⊆ I \ C be a set of non-hub multiples of p with
 
     |F_p ∩ p^vℤ| ≥ (D(p,v) − K(p,v))^+   for every v ≥ 1,              (F)
 
-of size f_p := max_{v≥1} (D(p,v) − K(p,v))^+. Such F_p exists. Put r(v) = max_{w≥v} (D(p,w) − K(p,w))^+, which is nonincreasing in v with r(1) = f_p and r(v) ≥ (D(p,v) − K(p,v))^+. Availability: for w ≥ v, N(p,v) − N(p,w) counts the multiples of p^v in I that are not multiples of p^w, and K(p,v) − K(p,w) counts the hubs among them, so N(p,v) − K(p,v) ≥ N(p,w) − K(p,w) ≥ D(p,w) − K(p,w) by (S); hence the number of non-hub multiples of p^v in I is at least r(v). Now build F_p from the top: let v_max be the largest v with r(v) > 0; choose r(v_max) non-hub multiples of p^{v_max}; then for v = v_max − 1, ..., 1 add non-hub multiples of p^v until F_p contains r(v) multiples of p^v (those chosen at higher levels already count, and enough non-hub multiples of p^v are available). The result satisfies |F_p ∩ p^vℤ| ≥ r(v) ≥ (D(p,v) − K(p,v))^+ for all v and |F_p| = r(1) = f_p.
+of size f_p := max_{v≥1} (D(p,v) − K(p,v))^+. (Only primes dividing ∏A need be considered; for every other prime, and whenever f_p = 0, take F_p = ∅.) Such F_p exists. Put r(v) = max_{w≥v} (D(p,w) − K(p,w))^+, which is nonincreasing in v with r(1) = f_p and r(v) ≥ (D(p,v) − K(p,v))^+. Availability: for w ≥ v, N(p,v) − N(p,w) counts the multiples of p^v in I that are not multiples of p^w, and K(p,v) − K(p,w) counts the hubs among them, so N(p,v) − K(p,v) ≥ N(p,w) − K(p,w) ≥ D(p,w) − K(p,w) by (S); hence the number of non-hub multiples of p^v in I is at least r(v). Now build F_p from the top: let v_max be the largest v with r(v) > 0; choose r(v_max) non-hub multiples of p^{v_max}; then for v = v_max − 1, ..., 1 add non-hub multiples of p^v until F_p contains r(v) multiples of p^v (those chosen at higher levels already count, and enough non-hub multiples of p^v are available). The result satisfies |F_p ∩ p^vℤ| ≥ r(v) ≥ (D(p,v) − K(p,v))^+ for all v and |F_p| = r(1) = f_p.
 
 Put B = C ∪ ⋃_p F_p. For every p^v, |B ∩ p^vℤ| ≥ K(p,v) + (D(p,v) − K(p,v))^+ ≥ D(p,v), so ∏A | ∏B by Lemma 3, and
 
