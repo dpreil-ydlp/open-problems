@@ -9,7 +9,7 @@ Directed by Dovid Preil. Proofs written by Claude Fable 5.1. Reviews by GPT-6.1 
 | Problem | Status | Proof | Review | Verification |
 |---|---|---|---|---|
 | OEIS A062887: a(n) = 0 iff 125 divides 2n+1 (conjecture of Sean A. Irvine, 2023) | **Proved**, 15 Oct 2026 | [PROOF.md](math/A062887/PROOF.md) | [REVIEW-SOL.md](math/A062887/REVIEW-SOL.md): correct with minor fixes, applied | [VERIFICATION.md](math/A062887/VERIFICATION.md): all 26 OEIS terms reproduced; witness found for every n ≤ 3000 with 125 ∤ 2n+1 using the proof's bound |
-| OEIS A185897: a(n) odd iff n = 1 or 3·2^k ≤ n ≤ 4·2^k − 1 (conjecture of Paul D. Hanna, 2025) | **Proof written, independent review in progress** | [PROOF.md](math/A185897/PROOF.md) | pending | [VERIFICATION.md](math/A185897/VERIFICATION.md): all 400 OEIS terms reproduced; mod-2 identities checked to degree 2000 |
+| OEIS A185897: a(n) odd iff n = 1 or 3·2^k ≤ n ≤ 4·2^k − 1 (conjecture of Paul D. Hanna, 2025) | **Proved**, 15 Oct 2026 | [PROOF.md](math/A185897/PROOF.md) | [REVIEW-SOL.md](math/A185897/REVIEW-SOL.md): correct, no objections | [VERIFICATION.md](math/A185897/VERIFICATION.md): all 400 OEIS terms reproduced; mod-2 identities checked to degree 2000 |
 
 ## In progress
 

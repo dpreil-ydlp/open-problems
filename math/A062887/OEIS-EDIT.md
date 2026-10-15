@@ -14,7 +14,7 @@ Proposed:
 
 ## LINKS: add
 
-    Dovid Preil and Claude, <a href="https://github.com/dpreil-ydlp/open-problems/blob/main/math/A062887/PROOF.md">Proof that a(n)=0 iff 125 | 2n+1</a>, with independent review and computational verification, Oct 2026.
+    Dovid Preil and Claude, <a href="https://github.com/dpreil-ydlp/open-problems/blob/master/math/A062887/PROOF.md">Proof that a(n)=0 iff 125 | 2n+1</a>, with independent review and computational verification, Oct 2026.
 
 ## EXAMPLE: correct the indexing slip
 
