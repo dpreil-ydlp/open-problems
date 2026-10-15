@@ -1,0 +1,43 @@
+{
+  "requested_cases_per_class": 30,
+  "requested_restarts": 300,
+  "requested_iterations_per_restart": 200000,
+  "real_best_score": -1418.0282948903046,
+  "synthetic_best_scores": [
+    -1497.7492290368855,
+    -1507.9296321840684,
+    -1508.5426373120983
+  ],
+  "shuffled_best_scores": [
+    -1497.398347756095,
+    -1495.7994614552742
+  ],
+  "synthetic_full_budget_scores": [
+    -1497.7492290368855,
+    -1507.9296321840684
+  ],
+  "shuffled_full_budget_scores": [
+    -1497.398347756095,
+    -1495.7994614552742
+  ],
+  "real_percentile_vs_synthetic_full_budget": 100.0,
+  "real_percentile_vs_shuffled_full_budget": 100.0,
+  "real_percentile_vs_all_observed_synthetic": 100.0,
+  "real_percentile_vs_all_observed_shuffled": 100.0,
+  "synthetic_key_letter_accuracy": [
+    0.05454545454545454,
+    0.0
+  ],
+  "mean_synthetic_key_letter_accuracy": 0.02727272727272727,
+  "synthetic_fraction_at_least_90pct_key_correct": 0.0,
+  "synthetic_completed": 3,
+  "shuffled_completed": 2,
+  "synthetic_full_budget_completed": 2,
+  "shuffled_full_budget_completed": 2,
+  "synthetic_control_generator_version": 1,
+  "synthetic_controls_valid_for_recovery": false,
+  "corrected_generator_version": 2,
+  "corrected_generator_cases_validated": 30,
+  "corrected_generator_solver_runs": 0,
+  "note": "The v1 synthetic controls alter a large fraction of sampled excerpt letters and are invalid for Spanish-like solver recovery. The v2 generator preserves the exact profile and was checked on 30 constructions, but received no annealing runs. The significance experiment is inconclusive."
+}

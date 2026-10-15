@@ -38,20 +38,35 @@ def load_corpus(lang: str, alphabet: str):
 
 
 def make_lm(text: str, alphabet: str, alpha=0.1):
+    # Integer-coded grams avoid allocating strings in the annealing loop.
+    charid = {c:i for i,c in enumerate(alphabet)}
     counts = {}
     totals = {}
     for n in (4, 5):
-        c = collections.Counter(text[i:i+n] for i in range(max(0, len(text)-n+1)))
+        c = collections.Counter()
+        for i in range(max(0, len(text)-n+1)):
+            code=0
+            for ch in text[i:i+n]: code=code*len(alphabet)+charid[ch]
+            c[code]+=1
         counts[n] = c
         totals[n] = sum(c.values())
     vocabs = {4: len(alphabet)**4, 5: len(alphabet)**5}
     def score(g):
-        c5 = counts[5].get(g, 0)
+        code=0
+        for ch in g: code=code*len(alphabet)+charid[ch]
+        c5 = counts[5].get(code, 0)
         if c5:
             return math.log((c5+alpha)/(totals[5]+alpha*vocabs[5])), False
-        g4 = g[:4]
-        c4 = counts[4].get(g4, 0)
+        c4 = counts[4].get(code//len(alphabet), 0)
         return math.log((c4+alpha)/(totals[4]+alpha*vocabs[4])), True
+    def score_ids(plain, start):
+        k=len(alphabet)
+        code=((((plain[start]*k+plain[start+1])*k+plain[start+2])*k+plain[start+3])*k+plain[start+4])
+        c5=counts[5].get(code,0)
+        if c5: return math.log((c5+alpha)/(totals[5]+alpha*vocabs[5])), False
+        c4=counts[4].get(code//k,0)
+        return math.log((c4+alpha)/(totals[4]+alpha*vocabs[4])), True
+    score.ids=score_ids
     return counts, totals, score
 
 
@@ -84,13 +99,19 @@ def score_plain(plain, lm_score):
 
 def anneal(seq, syms, alphabet, lm_score, restarts, iterations, seed, keep=20, deadline=None, seq_bonus=0.0):
     rng = random.Random(seed)
+    seq = [int(x) for x in seq]
     nsyms = len(syms); n = len(seq); ngram_starts = n-4
     affected = [set() for _ in range(nsyms)]
     for pos, sid in enumerate(seq):
         for start in range(max(0,pos-4), min(pos,ngram_starts-1)+1): affected[int(sid)].add(start)
-    affected = [np.fromiter(sorted(a), dtype=np.int16) for a in affected]
+    affected = [sorted(a) for a in affected]
+    positions = [[] for _ in range(nsyms)]
+    for i,sid in enumerate(seq): positions[sid].append(i)
+    score_ids = getattr(lm_score,"ids",None)
+    if score_ids is None: raise ValueError("language model does not expose integer scorer")
     best = {}
     done = 0
+    completed_restarts = 0
     for restart in range(restarts):
         if deadline and time.monotonic() >= deadline: break
         # Random balanced map over observed symbols.
@@ -99,10 +120,9 @@ def anneal(seq, syms, alphabet, lm_score, restarts, iterations, seed, keep=20, d
         for s in order:
             options = [i for i,c in enumerate(caps) if c < 5]
             letter = rng.choice(options); key[s]=letter; caps[letter]+=1
-        plain = np.array([key[int(s)] for s in seq], dtype=np.int16)
-        gscore = np.empty(ngram_starts, dtype=np.float64)
-        for i in range(ngram_starts): gscore[i] = lm_score("".join(alphabet[x] for x in plain[i:i+5]))[0]
-        current = float(gscore.sum())
+        plain = [key[s] for s in seq]
+        gscore = [score_ids(plain,i)[0] for i in range(ngram_starts)]
+        current = sum(gscore)
         temp0 = 4.5; temp1 = 0.035
         for it in range(iterations):
             if deadline and (it & 2047)==0 and time.monotonic() >= deadline: break
@@ -119,23 +139,24 @@ def anneal(seq, syms, alphabet, lm_score, restarts, iterations, seed, keep=20, d
                 old, new = key[s], key[t]
                 if old == new: continue
                 changed=[s,t]; olds=[old,new]; news=[new,old]
-            starts = np.unique(np.concatenate([affected[x] for x in changed]))
-            old_part = float(gscore[starts].sum())
+            starts_set=set()
+            for x in changed: starts_set.update(affected[x])
+            starts=sorted(starts_set)
+            old_part = sum(gscore[ix] for ix in starts)
             for ss, nl in zip(changed, news):
-                plain[seq == ss] = nl
-            vals=[]
-            for ix in starts:
-                vals.append(lm_score("".join(alphabet[x] for x in plain[ix:ix+5]))[0])
-            new_part = float(sum(vals)); delta=new_part-old_part
+                for pos in positions[ss]: plain[pos]=nl
+            vals=[score_ids(plain,ix)[0] for ix in starts]
+            new_part = sum(vals); delta=new_part-old_part
             accept = delta >= 0 or rng.random() < math.exp(max(-700.0, delta/max(temp,1e-12)))
             if accept:
                 current += delta
                 for ss, nl in zip(changed, news): key[ss]=nl
                 for letter in olds: caps[letter]-=1
                 for letter in news: caps[letter]+=1
-                gscore[starts] = vals
+                for ix,val in zip(starts,vals): gscore[ix]=val
             else:
-                for ss, ol in zip(changed, olds): plain[seq == ss] = ol
+                for ss, ol in zip(changed, olds):
+                    for pos in positions[ss]: plain[pos]=ol
             if it % 20000 == 0 or it == iterations-1:
                 ptxt = "".join(alphabet[x] for x in plain)
                 # Sequential cycle consistency: fraction of transitions matching a repeating symbol cycle.
@@ -154,8 +175,9 @@ def anneal(seq, syms, alphabet, lm_score, restarts, iterations, seed, keep=20, d
                     if len(best)>keep*3:
                         best = dict(sorted(best.items(), key=lambda kv:kv[1]["rank_score"], reverse=True)[:keep*2])
             done += 1
+        completed_restarts += 1
         if deadline and time.monotonic() >= deadline: break
-    return sorted(best.values(), key=lambda x:x["rank_score"], reverse=True)[:keep], {"restarts_completed":restart+1 if restart < restarts else restarts,"iterations_completed":done,"requested_restarts":restarts,"requested_iterations_per_restart":iterations}
+    return sorted(best.values(), key=lambda x:x["rank_score"], reverse=True)[:keep], {"restarts_completed":completed_restarts,"iterations_completed":done,"requested_restarts":restarts,"requested_iterations_per_restart":iterations}
 
 
 def rand_synthetic(seq_len, symbols, profile, corpus, alphabet, rng):

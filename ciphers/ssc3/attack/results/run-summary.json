@@ -1,0 +1,120 @@
+{
+  "budget_seconds": 4800,
+  "requested_restarts": 300,
+  "requested_iterations_per_restart": 200000,
+  "seed": 42,
+  "runs": [],
+  "synthetic": [
+    {
+      "case": 0,
+      "best_score": -1497.7492290368855,
+      "key_letter_accuracy": 0.05454545454545454,
+      "plaintext": "LALESLLEROSDESERASUESDELCUESDELCUREOSILDOELLAQUESOENACONELLADURPARSESUPRONSASALESIAAALNILLADEROELMUNDSDEDOSDELASDESPONDIODERRADOINCIPONDDIAQUN",
+      "true_plaintext": "HFHÑPFFÑVPFKÑPZLFCKÑPYZFJKÑPYZFJJKÑPIWFYYZFFJKIÑPYDVFWYCZFHJSIKLNLPÑPDVVWNIYIFHZCBNNCFCGHEJKDLYDEMINOPODREISDECIRÑPLEVSWYOULLNOYBEABLETOSAYZUE",
+      "corpus_excerpt_adjusted": "HFHÑPFFÑVPFKÑPZLFCKÑPYZFJKÑPYZFJJKÑPIWFYYZFFJKIÑPYDVFWYCZFHJSIKLNLPÑPDVVWNIYIFHZCBNNCFCGHEJKDLYDEMINOPODREISDECIRÑPLEVSWYOULLNOYBEABLETOSAYZUE",
+      "stats": {
+        "restarts_completed": 300,
+        "iterations_completed": 59223722,
+        "requested_restarts": 300,
+        "requested_iterations_per_restart": 200000
+      }
+    },
+    {
+      "case": 1,
+      "best_score": -1507.9296321840684,
+      "key_letter_accuracy": 0.0,
+      "plaintext": "ELDIDIDEOBDULOARDAAOLASLASPLUARADSASOQUELLADEESEPEROLOSQUESEDELASABAADSETODESCUDERONLACRISTALOSDESPONDSITODOSALAPUESTRAMBIENTEQUELTURNIRIMISCE",
+      "true_plaintext": "RWUBWBWHBQUPWBPLLWBJÑPGWBGJÑPWZBFIBGJÑPUWZBFRNGNJHLMÑMIDPNIHUHWBIDZDBFGHNJLNINGUNOMMÑPULVISWZBIFNGHJLLOBSMURIDÑDYTRISTPZQVRYVUNPRWSTOYCOMZMOSH",
+      "corpus_excerpt_adjusted": "RWUBWBWHBQUPWBPLLWBJÑPGWBGJÑPWZBFIBGJÑPUWZBFRNGNJHLMÑMIDPNIHUHWBIDZDBFGHNJLNINGUNOMMÑPULVISWZBIFNGHJLLOBSMURIDÑDYTRISTPZQVRYVUNPRWSTOYCOMZMOSH",
+      "stats": {
+        "restarts_completed": 300,
+        "iterations_completed": 59217344,
+        "requested_restarts": 300,
+        "requested_iterations_per_restart": 200000
+      }
+    },
+    {
+      "case": 2,
+      "best_score": -1508.5426373120983,
+      "key_letter_accuracy": 0.01818181818181818,
+      "plaintext": "NANYLLEALLAELLANAENTARONADETTARONOSEEARENIDOLESTRALPRERCEDIESDELANNUESILOSSEDSTACONSIDAMIENTEDELDIASDESENPRINOISCONLAALOSCONNODELASMALRICINCOS",
+      "true_plaintext": "IZNZZZYTZYZGYIZGNYIZTFGILÑUYZTFGIPÑUYZFGIEÑPEPUYIZETFGIBKÑLPUXYZFGIRKÑDEPUUUXEYZFGIELLLJMKBÑPQUELLTEXPOUIWIONPERMANENTEDEMANIAXYETRANZFORMABAE",
+      "corpus_excerpt_adjusted": "IZNZZZYTZYZGYIZGNYIZTFGILÑUYZTFGIPÑUYZFGIEÑPEPUYIZETFGIBKÑLPUXYZFGIRKÑDEPUUUXEYZFGIELLLJMKBÑPQUELLTEXPOUIWIONPERMANENTEDEMANIAXYETRANZFORMABAE",
+      "stats": {
+        "restarts_completed": 33,
+        "iterations_completed": 6426301,
+        "requested_restarts": 300,
+        "requested_iterations_per_restart": 200000
+      }
+    }
+  ],
+  "shuffled": [
+    {
+      "case": 0,
+      "best_score": -1497.398347756095,
+      "plaintext": "LUISSAUSTRAIDADDESNASLLARENSELPLAADONQUEATSNELLADODELROSOSERDELEDECIANQUENOPARADESTROENSUSANTIESTADEAQUELOEDANDOLODACONTESDELATRISULIOSTOANEAR",
+      "stats": {
+        "restarts_completed": 300,
+        "iterations_completed": 59216571,
+        "requested_restarts": 300,
+        "requested_iterations_per_restart": 200000
+      }
+    },
+    {
+      "case": 1,
+      "best_score": -1495.7994614552742,
+      "plaintext": "ONLOSREAELCURARAURARPARARRUNSTIENTERIAESTASSEIAELROSSANAANELUNOQUEPARADONOSENTEENELASCONSEINESTRAPRECIENTRARLASDESUSEANTSTRARIDOSENTIEQUEESTRL",
+      "stats": {
+        "restarts_completed": 300,
+        "iterations_completed": 59231522,
+        "requested_restarts": 300,
+        "requested_iterations_per_restart": 200000
+      }
+    }
+  ],
+  "real_best_score": -1418.0282948903046,
+  "baselines": {
+    "es": {
+      "runtime_seconds": 920.979,
+      "stats": {
+        "restarts_completed": 300,
+        "iterations_completed": 59219925,
+        "requested_restarts": 300,
+        "requested_iterations_per_restart": 200000
+      }
+    },
+    "eu": {
+      "runtime_seconds": 782.8,
+      "stats": {
+        "restarts_completed": 300,
+        "iterations_completed": 59252128,
+        "requested_restarts": 300,
+        "requested_iterations_per_restart": 200000
+      }
+    }
+  },
+  "controls": {
+    "synthetic_completed": 3,
+    "synthetic_full_budget": 2,
+    "shuffled_completed": 2,
+    "shuffled_full_budget": 2,
+    "synthetic_excerpt_changes": [
+      {
+        "case": 0,
+        "characters_changed": 65,
+        "fraction_changed": 0.45774647887323944
+      },
+      {
+        "case": 1,
+        "characters_changed": 69,
+        "fraction_changed": 0.4859154929577465
+      },
+      {
+        "case": 2,
+        "characters_changed": 69,
+        "fraction_changed": 0.4859154929577465
+      }
+    ],
+    "conclusion": "Synthetic outputs are not valid Spanish-like controls; significance experiment is inconclusive."
+  }
+}
