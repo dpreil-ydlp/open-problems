@@ -1,0 +1,20 @@
+{
+  "name": "Spanish Strip Cipher - Part 3",
+  "source_url": "https://mysterytwister.org/challenges/level-x/spanish-strip-cipher-part-3",
+  "transcript_url": "https://mysterytwister.org/media/challenges/pdf/mtc3-sanguino-03-SSC-03-en.pdf",
+  "access_date": "2026-10-15",
+  "date_of_ciphertext": "Spanish Civil War, summer/fall 1936 (as stated in challenge hints)",
+  "ciphertext_symbols": 142,
+  "symbol_definition": "Each two-digit homophone token is one ciphertext symbol; spaces/newlines are separators.",
+  "alphabet_size": 55,
+  "unigram_distinct_symbols": 55,
+  "index_of_coincidence": 0.019678,
+  "distribution_classification": "homophonic/flat (decimal homophone tokens; distinct-code distribution, not an A-Z letter IC)",
+  "transcription_confidence": "high for the published machine-readable transcript in PDF; extracted digits appear unambiguous",
+  "notes": [
+    "Method described in the source: Spanish Strip Cipher, a homophonic substitution system with a keyword-generated random alphabet and initial shift; source says original variants have 3 or 4 homophones per plaintext letter.",
+    "Language likely Spanish; Basque is also explicitly possible. The source allows variants with 3-5 homophones, optional LL/CH digraphs, and possible exclusion of W.",
+    "MysteryTwister level-X listing showed 0 solves on access date and no published solution notice. Searches for the exact challenge title with 'solved' and 'solution' returned no credible solution. New submissions are no longer accepted as of July 2026; existing submissions are still checked.",
+    "Research only. No decryption attempt was made."
+  ]
+}

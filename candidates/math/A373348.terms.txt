@@ -1,0 +1,6 @@
+# First 4 indexed terms from OEIS b-file; accessed 2026-10-15.
+# Source: https://oeis.org/A373348/b373348.txt
+1 1
+2 11
+3 206
+4 500015

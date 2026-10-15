@@ -1,0 +1,24 @@
+# Downloaded n-gram corpora are reproducible inputs and can be large.
+solvers/ngrams/corpora/
+
+# Keep generated NumPy arrays out of Git. Git ignore rules cannot test file size.
+*.npy
+
+# Git cannot match by file size. Ignore raw SSC3 text downloads by default, and
+# keep the existing small text corpora (including the Spanish Gutenberg texts).
+ciphers/ssc3/corpus/**/*.txt
+!ciphers/ssc3/corpus/es/pg17073.txt
+!ciphers/ssc3/corpus/es/pg2000.txt
+!ciphers/ssc3/corpus/es/pg320.txt
+!ciphers/ssc3/corpus/es/pg5201.txt
+!ciphers/ssc3/corpus/es/pg61022.txt
+!ciphers/ssc3/corpus/eu/euskal-herria.txt
+
+# Python and local environment files.
+__pycache__/
+.venv/
+*.pyc
+
+# Local logs and macOS metadata.
+logs/
+.DS_Store
