@@ -1,6 +1,6 @@
 # Erdős problem #708: partial progress, 15 October 2026
 
-**Status: OPEN. Nothing here resolves the problem.** This note (i) states the problem precisely from the primary sources, (ii) gives a complete proof, with the exact count, of the Erdős–Surányi lower bound whose details the 1992 paper leaves to the reader, (iii) records a reduction for the upper bound and the special cases it settles, and (iv) lists what was tried and failed. Author: Claude Fable 5.1, directed by Dovid Preil. Sources and brute force: SOURCES.md, STATEMENT.md, FINDINGS.md.
+**Status: OPEN. Nothing here resolves the problem in general.** New in Sections 3A and 3B: the question has an affirmative answer, with the bound 2n − 1, for all sets whose elements have at most two distinct prime factors, which includes Erdős's extremal family (Theorem A), and for every set with max(A) > (2n+1)³ (Theorem C). A counterexample to g(n) ≤ 2n must have max(A) ≤ (2n+1)³ and an element with three or more distinct prime factors. This note (i) states the problem precisely from the primary sources, (ii) gives a complete proof, with the exact count, of the Erdős–Surányi lower bound whose details the 1992 paper leaves to the reader, (iii) records a reduction for the upper bound and the special cases it settles, and (iv) lists what was tried and failed. Author: Claude Fable 5.1, directed by Dovid Preil. Sources and brute force: SOURCES.md, STATEMENT.md, FINDINGS.md.
 
 ## 1. The problem
 
@@ -65,6 +65,90 @@ So after B_1 (at most n numbers) the remaining demand is a product of n − |B_1
 **Corollary 3.** (i) If A is pairwise coprime, h(A, x) ≤ n. (ii) If the m_a can be chosen distinct, h(A, x) ≤ n. (iii) If every d_j has a multiple in I outside B_1 and these can be chosen distinct, h(A, x) ≤ 2n − |B_1| ≤ 2n − 1 when n ≥ 2. (iv) Any d_j ≤ M/(2n) has at least 2n multiples in I, so it never blocks.
 
 Thus the whole difficulty is concentrated in gcds d_j > M/(2n) all of whose multiples in I have already been taken. Erdős's construction is exactly this: d = p_i p_j with the single multiple c.
+
+## 3A. New upper bounds: the hub-and-fill method
+
+Notation. For a prime p and v ≥ 1 put D(p,v) = #{a ∈ A : p^v | a} and N(p,v) = #{b ∈ I : p^v | b}. Since the elements of A divisible by p^v are distinct multiples of p^v in [1, M],
+
+    D(p,v) ≤ ⌊M/p^v⌋ ≤ N(p,v)   for every prime power p^v.            (S)
+
+ω(m) denotes the number of distinct primes dividing m, and for a set S of integers P(S) is the set of primes dividing at least one element of S.
+
+**Lemma 3 (slot criterion).** If B ⊆ I satisfies |B ∩ p^vℤ| ≥ D(p,v) for every prime power p^v, then ∏A | ∏B.
+
+Proof. For each prime p, Σ_{b∈B} v_p(b) = Σ_{v≥1} |B ∩ p^vℤ| ≥ Σ_{v≥1} D(p,v) = Σ_{a∈A} v_p(a). ∎
+
+**Construction.** For each a ∈ A choose μ(a) ∈ I with a | μ(a) (exists since a ≤ M = |I|). Let C = μ(A) be the set of hubs, H = |C|, and for c ∈ C let S_c = μ^{-1}(c) (the group of c), so the S_c partition A. For a prime p and v ≥ 1 put K(p,v) = |C ∩ p^vℤ|.
+
+For each prime p, let F_p ⊆ I \ C be a set of non-hub multiples of p with
+
+    |F_p ∩ p^vℤ| ≥ (D(p,v) − K(p,v))^+   for every v ≥ 1,              (F)
+
+of size f_p := max_{v≥1} (D(p,v) − K(p,v))^+. Such F_p exists. Put r(v) = max_{w≥v} (D(p,w) − K(p,w))^+, which is nonincreasing in v with r(1) = f_p and r(v) ≥ (D(p,v) − K(p,v))^+. Availability: for w ≥ v, N(p,v) − N(p,w) counts the multiples of p^v in I that are not multiples of p^w, and K(p,v) − K(p,w) counts the hubs among them, so N(p,v) − K(p,v) ≥ N(p,w) − K(p,w) ≥ D(p,w) − K(p,w) by (S); hence the number of non-hub multiples of p^v in I is at least r(v). Now build F_p from the top: let v_max be the largest v with r(v) > 0; choose r(v_max) non-hub multiples of p^{v_max}; then for v = v_max − 1, ..., 1 add non-hub multiples of p^v until F_p contains r(v) multiples of p^v (those chosen at higher levels already count, and enough non-hub multiples of p^v are available). The result satisfies |F_p ∩ p^vℤ| ≥ r(v) ≥ (D(p,v) − K(p,v))^+ for all v and |F_p| = r(1) = f_p.
+
+Put B = C ∪ ⋃_p F_p. For every p^v, |B ∩ p^vℤ| ≥ K(p,v) + (D(p,v) − K(p,v))^+ ≥ D(p,v), so ∏A | ∏B by Lemma 3, and
+
+    |B| ≤ H + Σ_p f_p.                                                    (1)
+
+**Lemma 4.** For every prime p, f_p ≤ Σ_{c∈C} (n_c(p) − 1)^+, where n_c(p) = #{a ∈ S_c : p | a}.
+
+Proof. Let G(p,v) = #{c ∈ C : some a ∈ S_c has p^v | a}. If a ∈ S_c and p^v | a then p^v | μ(a) = c, so G(p,v) ≤ K(p,v). Writing n_c(p,v) = #{a ∈ S_c : p^v | a},
+
+    D(p,v) − K(p,v) ≤ D(p,v) − G(p,v) = Σ_c ( n_c(p,v) − [n_c(p,v) ≥ 1] ) = Σ_c (n_c(p,v) − 1)^+ ≤ Σ_c (n_c(p,1) − 1)^+,
+
+the last step because n_c(p,v) is nonincreasing in v. Take the maximum over v. ∎
+
+**Theorem B (general upper bound).** For every A and x,
+
+    h(A, x) ≤ Σ_{c∈C} ( 1 + Σ_{a∈S_c} ω(a) − |P(S_c)| ).
+
+Proof. By (1) and Lemma 4, |B| ≤ H + Σ_c Σ_p (n_c(p) − 1)^+. For fixed c, Σ_p n_c(p) = Σ_{a∈S_c} ω(a) and Σ_p [n_c(p) ≥ 1] = |P(S_c)|. ∎
+
+**Theorem A (the case of at most two prime factors).** If ω(a) ≤ 2 for every a ∈ A, then h(A, x) ≤ 2n − H ≤ 2n − 1 for every x ≥ 0.
+
+Proof. Fix a group S_c. If some a ∈ S_c has ω(a) = 2 then |P(S_c)| ≥ 2, so the group's term in Theorem B is at most 1 + 2|S_c| − 2 = 2|S_c| − 1. Otherwise every element of S_c is a prime power, Σ_{a∈S_c} ω(a) = |S_c| and |P(S_c)| ≥ 1, so the term is at most |S_c| ≤ 2|S_c| − 1. Summing over the H groups gives h(A,x) ≤ 2n − H. ∎
+
+**Corollary 5.** (i) Erdős's question "g(n) ≤ 2n?" has an affirmative answer for all sets whose elements have at most two distinct prime factors; in that class the truth lies between 2n − 2ℓ + 1 (Theorem 1, n = ℓ(ℓ+1)/2) and 2n − 1. (ii) Any pair (A, x) with h(A, x) > 2n must contain an element with at least three distinct prime factors. (iii) For general A, h(A,x) ≤ Σ_a ω(a) − Σ_c (|P(S_c)| − 1), which improves the trivial bound Σ_a ω(a) by the number of "extra" primes absorbed by hubs.
+
+Remark. The bound of Theorem B is tight for the Erdős instance up to the hub's own contribution: there every group term is 1 + 2|S_c| − ℓ_c. The method fails to give 2n once elements have three or more prime factors because the fill is done one prime at a time; a group of ω = 3 elements on few primes has Σ ω − |P| ≈ 3|S_c|. Reaching 2n in general requires fill numbers that carry two or more demanded primes at once; such numbers exist (for an element with components q_1 q_2 q_3 ⋯ there are at least q_3 ≥ 2 multiples of q_1 q_2 in I) but their availability after the hubs are removed is exactly the unresolved point.
+
+## 3B. The sparse regime: Theorem C
+
+Throughout this section put T = M/(2n+1) (a real number) and assume
+
+    M > (2n+1)³,  equivalently  T > (2n+1)².                              (R)
+
+Call a prime-power component q = p^v of an element a (meaning p^v ∥ a) *big* if q > T.
+
+**Lemma C1.** Under (R) every element of A has at most one big component. Proof: two coprime components both > T would multiply to more than T² = M · M/(2n+1)² > M(2n+1) > M ≥ a. ∎
+
+**Lemma C2 (fresh numbers).** If Q ≤ T then I contains at least 2n+1 multiples of Q, since ⌊M/Q⌋ ≥ ⌊2n+1⌋. In particular, whenever fewer than 2n+1 numbers have been selected, some multiple of Q in I is still unselected. ∎
+
+**Lemma C3 (splitting).** Under (R), let a ≤ M have no big component and a > T. Then the prime-power components of a can be partitioned into two nonempty groups with products Q_1 ≤ T and Q_2 ≤ T.
+
+Proof. Let q_1 ≤ q_2 ≤ ... ≤ q_r be the components (r ≥ 2 since a > T ≥ every component) and P^{(k)} = q_1 ⋯ q_k.
+
+Case (i): some component q_j > T²/a. Then Q_1 = q_j ≤ T (not big) and Q_2 = a/q_j < a²/T² ≤ M²/T² = (2n+1)² < T by (R).
+
+Case (ii): every component is ≤ T²/a. Since P^{(0)} = 1 < a/T (as a > T) and P^{(r)} = a ≥ a/T, let k ≥ 1 be minimal with P^{(k)} ≥ a/T. Then P^{(k)} = P^{(k−1)} q_k < (a/T)(T²/a) = T, so Q_1 = P^{(k)} ∈ [a/T, T) and Q_2 = a/Q_1 ≤ T. If k = r then Q_1 = a < T, contradicting a > T; so both groups are nonempty. ∎
+
+(The hypothesis (R) is used only in Case (i). Some condition of the shape M ≥ (2n+1)² is necessary for any such splitting, since Q_1 Q_2 = a can be as large as M while Q_1, Q_2 ≤ T forces M ≤ T².)
+
+**Theorem C.** If M > (2n+1)³ then h(A, x) ≤ 2n for every x ≥ 0.
+
+Proof. We build B ⊆ I with |B| ≤ 2n satisfying the slot criterion of Lemma 3, i.e. |B ∩ p^vℤ| ≥ D(p,v) for all prime powers. We will in fact exhibit, for each prime p, an injective map a ↦ h(a,p) from {a ∈ A : p | a} into B with p^{v_p(a)} | h(a,p); this gives |B ∩ p^vℤ| ≥ #{a : v_p(a) ≥ v} = D(p,v).
+
+Phase 1 (big components). For each element a with a big component p^v (at most one by Lemma C1) call (a, p, v) a big token. For each prime p, host the big tokens at p on pairwise distinct multiples of the respective p^v in I: process them in decreasing order of v; when a token with exponent v is processed, the number of tokens at p with exponent ≥ v already hosted is less than #{a : p^v | a} = D(p,v) ≤ N(p,v), so an unused multiple of p^v in I exists. Let B_1 be the set of all hosts so chosen (hosts for different primes may coincide). Set h(a,p) := the host of a's big token. |B_1| ≤ n_big := number of elements with a big component.
+
+Phase 2 (fresh groups). For each element a let a* = a divided by its big component (a* = a if there is none). If a* = 1 there is nothing to do. If a* ≤ T, form the single group Q_1 = a*. Otherwise a* > T; a* has no big component and a* ≤ M, so Lemma C3 splits its components into two groups Q_1, Q_2 ≤ T. Note that if a has a big component q then a* = a/q < M/T = 2n+1 ≤ T, so this case always yields a single group. Now go through all groups of all elements in any order; for each group Q select a multiple of Q in I that has not been selected before (Phase 1 hosts count as selected). This is possible by Lemma C2 because at most 2n numbers are selected in total: elements with a big component contribute at most 1 + 1, elements without contribute at most 2. For every prime p dividing Q set h(a,p) := the selected multiple of Q.
+
+Let B = B_1 ∪ {all selected group multiples}. Then |B| ≤ 2n.
+
+Injectivity. Fix a prime p. If a has p in its big component, h(a,p) ∈ B_1 and the Phase 1 hosts at p are pairwise distinct. If p lies in a group of a, h(a,p) is a Phase 2 number, which was selected fresh, hence differs from every Phase 1 host and from every other Phase 2 number; and a Phase 2 number hosts components of a single element only. So a ↦ h(a,p) is injective on {a : p | a}, and p^{v_p(a)} | h(a,p) in both cases. By Lemma 3, ∏A | ∏B. ∎
+
+**Corollary 6.** Erdős's question "g(n) ≤ 2n?" has an affirmative answer whenever max(A) > (2n+1)³. Combined with Theorem A, a counterexample to g(n) ≤ 2n, if one exists, must satisfy M ≤ (2n+1)³ and contain an element with at least three distinct prime factors.
+
+Remark. The constant 3 in the exponent comes only from Case (i) of Lemma C3; the method cannot go below exponent 2 because of the trivial obstruction M ≤ T². The dense regime M ≤ (2n+1)³ is where Erdős's own construction lives (there n ≍ M/(log M)²), and it is exactly the regime where fresh multiples of two-component groups need not exist. Closing it requires hosting groups on numbers that already carry other elements' tokens, which is the unresolved point.
 
 ## 4. What was tried for the upper bound and why it failed
 
