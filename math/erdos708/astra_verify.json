@@ -1,0 +1,165 @@
+{
+  "arithmetic": "Python integers only; no optimizer",
+  "seed": 7081502,
+  "increment_family": [
+    {
+      "e": 4,
+      "M": 20,
+      "n_before": 8,
+      "n_after": 9,
+      "h_before": 5,
+      "h_after": 9,
+      "increment": 4,
+      "demand_2_before": 13,
+      "demand_2_after": 17,
+      "top_before_minus_one": 11,
+      "top_after_minus_one": 16,
+      "A_before": [
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        20
+      ],
+      "added": 16,
+      "x": 25184,
+      "H": 1575,
+      "B_before": [
+        25188,
+        25192,
+        25196,
+        25200,
+        25204
+      ],
+      "B_after": [
+        25188,
+        25192,
+        25196,
+        25200,
+        25204,
+        25186,
+        25190,
+        25194,
+        25198
+      ],
+      "descending_interval_2_valuations": [
+        4,
+        3,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "e": 5,
+      "M": 36,
+      "n_before": 13,
+      "n_after": 14,
+      "h_before": 9,
+      "h_after": 14,
+      "increment": 5,
+      "demand_2_before": 25,
+      "demand_2_after": 30,
+      "top_before_minus_one": 23,
+      "top_after_minus_one": 29
+    },
+    {
+      "e": 6,
+      "M": 68,
+      "n_before": 22,
+      "n_after": 23,
+      "h_before": 17,
+      "h_after": 23,
+      "increment": 6,
+      "demand_2_before": 49,
+      "demand_2_after": 55,
+      "top_before_minus_one": 47,
+      "top_after_minus_one": 54
+    },
+    {
+      "e": 7,
+      "M": 132,
+      "n_before": 39,
+      "n_after": 40,
+      "h_before": 33,
+      "h_after": 40,
+      "increment": 7,
+      "demand_2_before": 97,
+      "demand_2_after": 104,
+      "top_before_minus_one": 95,
+      "top_after_minus_one": 103
+    },
+    {
+      "e": 8,
+      "M": 260,
+      "n_before": 72,
+      "n_after": 73,
+      "h_before": 65,
+      "h_after": 73,
+      "increment": 8,
+      "demand_2_before": 193,
+      "demand_2_after": 201,
+      "top_before_minus_one": 191,
+      "top_after_minus_one": 200
+    },
+    {
+      "e": 9,
+      "M": 516,
+      "n_before": 137,
+      "n_after": 138,
+      "h_before": 129,
+      "h_after": 138,
+      "increment": 9,
+      "demand_2_before": 385,
+      "demand_2_after": 394,
+      "top_before_minus_one": 383,
+      "top_after_minus_one": 393
+    },
+    {
+      "e": 10,
+      "M": 1028,
+      "n_before": 266,
+      "n_after": 267,
+      "h_before": 257,
+      "h_after": 267,
+      "increment": 10,
+      "demand_2_before": 769,
+      "demand_2_after": 779,
+      "top_before_minus_one": 767,
+      "top_after_minus_one": 778
+    }
+  ],
+  "packing_checks": [
+    {
+      "K": 2,
+      "cases": 45,
+      "largest_budget_fraction_used": 1.0,
+      "largest_groups_per_input": 2
+    },
+    {
+      "K": 3,
+      "cases": 45,
+      "largest_budget_fraction_used": 0.8333333333333334,
+      "largest_groups_per_input": 3
+    }
+  ],
+  "seconds": 0.014179457997670397
+}

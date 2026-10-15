@@ -165,3 +165,16 @@ Remark. The constant 3 in the exponent comes only from Case (i) of Lemma C3; the
 4. Induction removing the smallest element keeps I fixed but the deficit a_1 / gcd(a_1, spare) may be a_1 itself with every multiple used.
 
 At the time these routes were tried I believed no linear bound was known. Section 1A records that Chen's 2026 manuscript claims g(n) ≤ 12n (and 11n refereed); those claims are not checked here. The open question is (2+o(1))n, equivalently the dense regime M < 8n³ with elements having three or more distinct prime factors.
+
+## 5. Closing record, 16 October 2026
+
+Independent attempts on the general upper bound, all recorded in this directory:
+
+- SOL-UPPER-ATTEMPT.md (GPT-6.1 Sol, ultra effort): reproves 2n for M ≥ (2n)³; proves that the fixed "split off the largest prime" rule has an asymptotic Hall violator (A_M = even numbers ≤ M with two odd prime factors; exact finite certificate at M = 3·10⁸) that persists as M/n → ∞; shows the complement-profile condition is too strong. No general bound.
+- ASTRA-UPPER-ATTEMPT.md (GPT-6 Astra, max effort): reproves 2n for M ≥ (2n)³; shows the two-number induction step can be defeated by unbounded increases; corrects the LP computation. RESULT: NO NEW THEOREM.
+- search/RESULTS.md: adversarial counterexample search, 85 sets, 16,777 exact ILP solves, CRT-placed hubs plus residue hill-climbing; no instance with h > 2n; maximum ratio 4/3 at Erdős–Surányi's (77, 91, 143).
+- PRIORWORK.md and LITERATURE.md: Haoyu Chen's manuscript (Sep–Oct 2026) proves g(n) ≤ 12n (Lean-checked per author), 11n (refereed, not formalised), 2n for max(A) ≥ 8n³, and 2n whenever the input–prime incidence graph has cycle rank ≤ n. The (2+o(1))n question is explicitly open there too.
+
+What a solution now needs, as precisely as this work can state it: a 2n (or (2+o(1))n) cover in the dense regime max(A) < 8n³ for sets containing elements with three or more distinct prime factors, where fresh multiples of two-component groups are unavailable and the incidence cycle rank exceeds n. Every route tried here reduces to hosting pairs of prime-power components on numbers that already carry other elements' tokens, subject to one token per prime per number; Sol's Theorem 3 shows the obvious fixed rules fail Hall's condition, so an adaptive choice of the split, or a genuinely different idea, is required.
+
+Status: OPEN.

@@ -15,7 +15,7 @@ Directed by Dovid Preil. Proofs written by Claude Fable 5.1. Reviews by GPT-6.1 
 
 | Problem | What is here | Status |
 |---|---|---|
-| Erdős problem #708 ($100): is g(n) ≤ 2n for the Erdős–Surányi divisibility function? | [NOTES.md](math/erdos708/NOTES.md): primary-source statement; complete proof of the lower bound with the exact value 2n − 2ℓ + 1 for the construction (Erdős left the computation to the reader), verified by integer programming ([VERIFICATION-LOWER.md](math/erdos708/VERIFICATION-LOWER.md)); a telescoping-gcd reduction isolating the single lemma that would give the upper bound; the failed attack routes | **OPEN.** No upper bound is claimed. |
+| Erdős problem #708 ($100): is g(n) ≤ 2n for the Erdős–Surányi divisibility function? | [NOTES.md](math/erdos708/NOTES.md): primary-source statement; proof of the lower bound with the exact value 2n − 2ℓ + 1, verified by integer programming; two refereed upper-bound theorems (ω ≤ 2 ⇒ h ≤ 2n − 1; max(A) > (2n+1)³ ⇒ h ≤ 2n) that turned out to be independent rediscoveries of results in Haoyu Chen's 2026 manuscript, which proves g(n) ≤ 12n; three independent failed attacks on the dense regime with proved obstructions; a counterexample search with nothing above 2n | **OPEN.** No new upper bound is claimed. The precise remaining gap is stated in NOTES.md §5. |
 
 ## In progress
 
