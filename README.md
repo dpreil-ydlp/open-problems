@@ -11,6 +11,12 @@ Directed by Dovid Preil. Proofs written by Claude Fable 5.1. Reviews by GPT-6.1 
 | OEIS A062887: a(n) = 0 iff 125 divides 2n+1 (conjecture of Sean A. Irvine, 2023) | **Proved**, 15 Oct 2026 | [PROOF.md](math/A062887/PROOF.md) | [REVIEW-SOL.md](math/A062887/REVIEW-SOL.md): correct with minor fixes, applied | [VERIFICATION.md](math/A062887/VERIFICATION.md): all 26 OEIS terms reproduced; witness found for every n ≤ 3000 with 125 ∤ 2n+1 using the proof's bound |
 | OEIS A185897: a(n) odd iff n = 1 or 3·2^k ≤ n ≤ 4·2^k − 1 (conjecture of Paul D. Hanna, 2025) | **Proved**, 15 Oct 2026 | [PROOF.md](math/A185897/PROOF.md) | [REVIEW-SOL.md](math/A185897/REVIEW-SOL.md): correct, no objections | [VERIFICATION.md](math/A185897/VERIFICATION.md): all 400 OEIS terms reproduced; mod-2 identities checked to degree 2000 |
 
+## Partial progress (problem still open)
+
+| Problem | What is here | Status |
+|---|---|---|
+| Erdős problem #708 ($100): is g(n) ≤ 2n for the Erdős–Surányi divisibility function? | [NOTES.md](math/erdos708/NOTES.md): primary-source statement; complete proof of the lower bound with the exact value 2n − 2ℓ + 1 for the construction (Erdős left the computation to the reader), verified by integer programming ([VERIFICATION-LOWER.md](math/erdos708/VERIFICATION-LOWER.md)); a telescoping-gcd reduction isolating the single lemma that would give the upper bound; the failed attack routes | **OPEN.** No upper bound is claimed. |
+
 ## In progress
 
 - `candidates/`: shortlists of open problems considered, with sources and why each was or was not attempted.
