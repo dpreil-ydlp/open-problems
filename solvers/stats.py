@@ -2,10 +2,12 @@
 """Ciphertext profile, coincidence periods, n-grams and repeats."""
 import argparse, collections, math, re
 from pathlib import Path
-from cipherkit import letters, read_cipher
+from cipherkit import read_cipher
 
 def analyze(text):
- s=letters(text); n=len(s); counts=collections.Counter(s); ic=sum(v*(v-1) for v in counts.values())/(n*(n-1)) if n>1 else 0.0
+ # Spaces and line breaks are formatting. Keep every other visible symbol so
+ # digit- and punctuation-based homophones remain visible to the classifier.
+ s=''.join(c for c in text if not c.isspace()); n=len(s); counts=collections.Counter(s); ic=sum(v*(v-1) for v in counts.values())/(n*(n-1)) if n>1 else 0.0
  periods=[]
  for p in range(1,31):
   cols=[s[i::p] for i in range(p)]; vals=[]

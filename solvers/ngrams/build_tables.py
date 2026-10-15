@@ -1,16 +1,22 @@
 #!/usr/bin/env python3
 """Download the configured public-domain books and build dense quadgram tables."""
 from collections import Counter
+import unicodedata
 from pathlib import Path
 import argparse, subprocess
 import numpy as np
 ROOT=Path(__file__).parent; CORP=ROOT/'corpora'
+TRANSLITERATION=str.maketrans({'ß':'SS','ẞ':'SS','æ':'AE','Æ':'AE','œ':'OE','Œ':'OE','ø':'O','Ø':'O','ł':'L','Ł':'L','đ':'D','Đ':'D','ð':'D','Ð':'D','þ':'TH','Þ':'TH'})
+def normalize_letters(text):
+ text=text.translate(TRANSLITERATION)
+ text=''.join(c for c in unicodedata.normalize('NFKD',text.upper()) if not unicodedata.combining(c))
+ return ''.join(c for c in text if 'A'<=c<='Z')
 # Three Gutenberg plain-text books per language. The downloader records exact source URLs.
 BOOKS={
 'en':[(1342,'pride-and-prejudice'),(11,'alice-in-wonderland'),(1661,'sherlock-holmes')],
 'fr':[(17989,'le-comte-de-monte-cristo'),(17489,'les-miserables'),(19657,'notre-dame-de-paris')],
 'es':[(2000,'don-quijote'),(320,'lazarillo-de-tormes'),(1619,'la-celestina')],
-'it':[(1012,'divina-commedia'),(19517,'le-avventure-di-pinocchio'),(52484,'pinocchio-storia-di-un-burattino')],
+'it':[(1012,'divina-commedia'),(19517,'le-avventure-di-pinocchio'),(28961,'cuore')],
 'de':[(22367,'die-verwandlung'),(2407,'die-leiden-des-jungen-werther'),(47804,'die-raeuber')],
 'la':[(227,'aeneidos'),(9175,'ars-poetica'),(218,'de-bello-gallico')]}
 def fetch(book):
@@ -40,7 +46,7 @@ def main():
   if len(texts)<1:raise SystemExit(f'No usable books for {lang}')
   counts=Counter(); total=0
   for text in texts:
-   s=''.join(c for c in text.upper() if 'A'<=c<='Z')
+   s=normalize_letters(text)
    counts.update(s[i:i+4] for i in range(len(s)-3));total+=len(s)-3
   table=np.full(26**4,np.float32(-16.0)); floor=1/(total+26**4)
   # log probabilities, with a small additive floor for unseen sequences.

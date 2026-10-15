@@ -5,9 +5,9 @@ import pytest
 import sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-import subst, homophonic, vigenere, transposition, playfair
-from cipherkit import ALPHABET, letters
-from ngrams.build_tables import ROOT as NGRAM_ROOT
+import subst, homophonic, vigenere, transposition, playfair, run_all
+from cipherkit import ALPHABET, letters, score, load_table
+from ngrams.build_tables import ROOT as NGRAM_ROOT, normalize_letters
 
 SOURCE=(ROOT/'ngrams/corpora/1342-pride-and-prejudice.txt').read_text(errors='ignore')
 SOURCE=SOURCE[SOURCE.find('It is a truth universally acknowledged'):]
@@ -38,7 +38,14 @@ def enc_playfair(text,key):
  return ''.join(out)
 
 def record(name, result):
- path=ROOT/'tests'/'runtime-results.json';data=json.loads(path.read_text()) if path.exists() else {};data[name]=round(result['runtime_seconds'],3);path.write_text(json.dumps(data,indent=2)+'\n')
+ path=ROOT/'tests'/'runtime-results.json';data=json.loads(path.read_text()) if path.exists() else {};data[name]=round(result['runtime_seconds'],4);path.write_text(json.dumps(data,indent=2)+'\n')
+
+def test_corpus_transliterates_accents_without_breaking_words():
+ assert normalize_letters('FRANÇAIS ÉTÉ Straße Æther')=='FRANCAISETESTRASSEAETHER'
+
+def test_runner_homophonic_alphabet_preserves_punctuation():
+ assert run_all.homophonic_alphabet('A,B 12!')=='AB12'
+ assert run_all.homophonic_alphabet('A,@B', 'A,@B')=='A,@B'
 
 def test_substitution_random_key():
  key=list(ALPHABET);random.Random(2).shuffle(key);ct=enc_sub(PLAIN,key)
@@ -51,7 +58,7 @@ def test_homophonic_random_mapping():
  symbols=list(string.ascii_lowercase);random.Random(3).shuffle(symbols)
  key=random.Random(11).sample(range(26),26)
  mapping={chr(value+65):symbols[i] for i,value in enumerate(key)};ct=''.join(mapping[c] for c in PLAIN)
- r=homophonic.solve(ct,restarts=1,iters=1000,alphabet=''.join(symbols),checkpoint=None,seed=11);record('homophonic',r);assert letters(r['plaintext'])==PLAIN
+ r=homophonic.solve(ct,restarts=1,iters=1000,alphabet=''.join(symbols),checkpoint=None,seed=11);record('homophonic',r);assert letters(r['plaintext'])==PLAIN;assert r['score']==score(r['plaintext'],load_table('en'))
 
 def test_vigenere_random_key():
  key=[3,19,8];ct=enc_vig(PLAIN,key)

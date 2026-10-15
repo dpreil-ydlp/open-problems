@@ -1,7 +1,7 @@
 {
-  "vigenere": 0.604,
-  "transposition": 0.0,
-  "subst": 4.963,
-  "playfair": 0.042,
-  "homophonic": 0.096
+  "vigenere": 0.4208,
+  "transposition": 0.0001,
+  "subst": 4.4624,
+  "playfair": 0.0245,
+  "homophonic": 0.0918
 }

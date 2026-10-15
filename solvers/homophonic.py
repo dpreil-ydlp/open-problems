@@ -19,7 +19,7 @@ def solve(text,lang='en',restarts=12,iters=24000,alphabet=None,checkpoint=None,c
  def render(key):return ''.join(chr(key[symbols.index(c)]+65) if c in symbols else c for c in text)
  def save():
   if checkpoint:
-   d={'score':best[0],'key':{symbols[i]:chr(best[1][i]+65) for i in range(len(symbols))},'plaintext':best[2],'elapsed_seconds':time.perf_counter()-started}
+   d={'score':score(best[2],table),'objective':best[0],'key':{symbols[i]:chr(best[1][i]+65) for i in range(len(symbols))},'plaintext':best[2],'elapsed_seconds':time.perf_counter()-started}
    Path(checkpoint).parent.mkdir(parents=True,exist_ok=True);Path(checkpoint).write_text(json.dumps(d,indent=2)+'\n')
  one_to_one=len(symbols)<=26
  for run in range(restarts):
@@ -40,7 +40,7 @@ def solve(text,lang='en',restarts=12,iters=24000,alphabet=None,checkpoint=None,c
    now=time.perf_counter()
    if now-last>=checkpoint_seconds:save();last=now
  save()
- return {'score':best[0],'key':{symbols[i]:chr(best[1][i]+65) for i in range(len(symbols))},'plaintext':best[2],'runtime_seconds':time.perf_counter()-started}
+ return {'score':score(best[2],table),'objective':best[0],'key':{symbols[i]:chr(best[1][i]+65) for i in range(len(symbols))},'plaintext':best[2],'runtime_seconds':time.perf_counter()-started}
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('ciphertext',type=Path);p.add_argument('--lang',choices=LANGS,default='en');p.add_argument('--restarts',type=int,default=12);p.add_argument('--iters',type=int,default=24000);p.add_argument('--alphabet',help='ordered cipher-symbol alphabet; default uses distinct letters');p.add_argument('--checkpoint',type=Path,default=Path('homophonic-best.json'));p.add_argument('--checkpoint-seconds',type=float,default=30);p.add_argument('--output',type=Path);a=p.parse_args();r=solve(read_cipher(a.ciphertext),a.lang,a.restarts,a.iters,a.alphabet,a.checkpoint,a.checkpoint_seconds);print(r['plaintext']);print(f"score={r['score']:.2f} runtime={r['runtime_seconds']:.2f}s key={r['key']}");
  if a.output:json_result(a.output,r)

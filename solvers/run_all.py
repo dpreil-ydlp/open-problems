@@ -18,8 +18,12 @@ def choose(d):
  if 'homophonic' in g or d['distinct_symbols']>26:selected+=['homophonic']
  if 'transposition' in g or d['ic']>.045:selected+=['transposition','playfair']
  return list(dict.fromkeys(selected))
+def homophonic_alphabet(text, configured=None):
+ # Keep separators as formatting; retain letters and digits as likely symbols.
+ if configured is not None:return configured
+ return ''.join(dict.fromkeys(c for c in text if c.isalnum()))
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('ciphertext',type=Path);p.add_argument('--lang',choices=LANGS,default='en');p.add_argument('--time-budget',type=float,default=240,help='total seconds shared by sequential solvers');a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('ciphertext',type=Path);p.add_argument('--lang',choices=LANGS,default='en');p.add_argument('--time-budget',type=float,default=240,help='total seconds shared by sequential solvers');p.add_argument('--homophonic-alphabet',help='explicit ordered symbol alphabet; include punctuation used as cipher symbols');a=p.parse_args()
  raw=read_cipher(a.ciphertext);profile=stats.analyze(raw); names=choose(profile); outdir=ROOT/'results'/slug(a.ciphertext);outdir.mkdir(parents=True,exist_ok=True)
  (outdir/'stats.json').write_text(json.dumps({'symbols':profile['symbols'],'distinct_symbols':profile['distinct_symbols'],'ic':profile['ic'],'periodic_ic':profile['periodic_ic'],'guess':profile['guess']},indent=2)+'\n')
  print(f"Guess: {profile['guess']}; selected: {', '.join(names)}; budget: {a.time_budget:.0f}s")
@@ -31,6 +35,9 @@ def main():
   # Derive safe iteration limits for short samples so one family does not consume the entire budget.
   its=max(200,min(18000,int(slot*55)));restarts=max(1,min(12,int(slot/2)))
   cmd=[sys.executable,str(ROOT/script),str(a.ciphertext),'--lang',a.lang,'--output',str(result_path),*extra]
+  if name=='homophonic':
+   alphabet=homophonic_alphabet(raw,a.homophonic_alphabet)
+   if alphabet:cmd += ['--alphabet',alphabet]
   if name in ('subst','homophonic','playfair'):cmd += ['--iters',str(its),'--restarts',str(restarts)]
   elif name=='vigenere':cmd += ['--polish-iters',str(its)]
   else:cmd += ['--iters',str(max(100,its//5)),'--restarts',str(max(1,restarts//3))]
