@@ -50,3 +50,10 @@ Changes made in Edge:
 - Final status: A185897 `proposed`; A062887 `proposed`.
 - Discussion note on A185897: `Thank you. Fixed: signed with ~~~~ and added a signature for the two new formulas.`
 - Final draft screenshots: `a185897-sigfix.png` and `a062887-sigfix.png`.
+
+## Signature fix round 2 — 2026-10-16
+
+- A185897: fixed the comment separator and placed the formula signature on the last new formula line. Submitted for review; status `proposed`.
+- A062887: confirmed the comment separator and placed the formula signature on the last new formula line. Submitted for review; status `proposed`.
+- Verified both latest combined drafts with `curl -s`: no standalone tilde lines or unexpanded tildes in the changed comment/formula lines; both signatures render as `- _Dovid Preil_, Oct 16 2026`. No new discussion comment was posted.
+- Overwrote `a185897-sigfix.png` and `a062887-sigfix.png` using `screencapture -x`.
