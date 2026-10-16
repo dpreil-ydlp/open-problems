@@ -55,5 +55,5 @@ Changes made in Edge:
 
 - A185897: fixed the comment separator and placed the formula signature on the last new formula line. Submitted for review; status `proposed`.
 - A062887: confirmed the comment separator and placed the formula signature on the last new formula line. Submitted for review; status `proposed`.
-- Verified both latest combined drafts with `curl -s`: no standalone tilde lines or unexpanded tildes in the changed comment/formula lines; both signatures render as `- _Dovid Preil_, Oct 16 2026`. No new discussion comment was posted.
+- Verified both latest combined drafts with `curl -s`: the changed comment and formula lines end in `- _Dovid Preil_, Oct 16 2026`; no tilde tokens remain in those lines. OEIS omitted the dash when it expanded `~~~~` in FORMULA, so the specified literal signature fallback was used. No new discussion comment was posted.
 - Overwrote `a185897-sigfix.png` and `a062887-sigfix.png` using `screencapture -x`.
