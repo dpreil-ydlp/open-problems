@@ -57,3 +57,14 @@ Changes made in Edge:
 - A062887: confirmed the comment separator and placed the formula signature on the last new formula line. Submitted for review; status `proposed`.
 - Verified both latest combined drafts with `curl -s`: the changed comment and formula lines end in `- _Dovid Preil_, Oct 16 2026`; no tilde tokens remain in those lines. OEIS omitted the dash when it expanded `~~~~` in FORMULA, so the specified literal signature fallback was used. No new discussion comment was posted.
 - Overwrote `a185897-sigfix.png` and `a062887-sigfix.png` using `screencapture -x`.
+
+## Editor feedback — 2026-10-19
+
+Michael S. Branicky's comment on the parallel A062887 draft:
+
+> There is no reason to remove the conjecture only to restate it. Claude cannot be claimed as a co-author here (see Style Sheet).
+
+- A185897: restored Paul D. Hanna's original conjecture as the first comment line; changed our comment to begin `The conjecture is true (see Preil link).` and kept the proof sketch and signature; removed Claude from our proof link; posted the requested discussion note and submitted the draft for review. Status: `proposed`.
+- A062887: Branicky and Andrew Howroyd had already fixed that draft themselves. No A062887 edit was made in this update.
+- Earlier attempts today were blocked by OEIS sign-in. After the user signed in, the A185897 edit was completed in the existing Edge session.
+- Screenshot: `a185897-branicky-fix.png`.
