@@ -68,3 +68,15 @@ Michael S. Branicky's comment on the parallel A062887 draft:
 - A062887: Branicky and Andrew Howroyd had already fixed that draft themselves. No A062887 edit was made in this update.
 - Earlier attempts today were blocked by OEIS sign-in. After the user signed in, the A185897 edit was completed in the existing Edge session.
 - Screenshot: `a185897-branicky-fix.png`.
+
+## Editor feedback — 2026-10-22
+
+Alper Ferudun's comment, verbatim:
+
+> I recomputed all 26 DATA terms and found no discrepancies. The Maple search uses only numbers of at most 35 digits, but a(56) has 58 digits, so it cannot complete the requested 65 terms. It also needs to handle a(62)=0 instead of continuing the search for a positive multiple of 125.
+
+Added `math/A062887/a062887.py` as the OEIS Python program. It enumerates admissible values by length and numeric value without a digit limit and returns 0 when 125 divides 2n+1. Added `test_a062887.py` with checks against all 26 local b-file terms, a(62)=a(187)=0, and the 58-digit a(56) divisible by 113.
+
+Test results: all 3 unittest checks passed. The direct acceptance output matched all 26 b-file terms; a(62)=0; a(187)=0; a(56)=3197531975319753197531975319753197531975319753197531975319 (58 digits), remainder mod 113 = 0.
+
+OEIS draft: edit #27 changed PROG only. The `(Python)` program appears with the expanded signature `Dovid Preil, Oct 22 2026`; draft status is `proposed`. The requested discussion reply was posted once. Latest status edit #28 only changes STATUS. Screenshot was not captured: the macOS desktop capture targeted an unrelated existing Edge tab, so that image was not retained.
